@@ -12,27 +12,22 @@ def plot_caviar(returns, VaR, quantile, model, x_axis=None):
         x_axis = range(len(returns))
         x_lbl = 'time'
     
-    fig, axes = plt.subplots(2, 1, figsize=(10, 8*2))
+    fig, axes = plt.subplots(figsize=(10, 8))
     
-    axes[0].plot(x_axis, -VaR)
-    axes[0].set_title(f'Estimated CAViaR Plot [{model.capitalize()}]')
-    axes[0].set_xlabel(x_lbl)
-    axes[0].set_ylabel('CAViaR')
-    axes[0].tick_params(axis='x', labelrotation=45)
-    
-    axes[1].plot(x_axis, returns, label='Rendimiento', zorder=1)
-    axes[1].plot(x_axis, VaR, label='VaR', zorder=2)
+    axes.plot(x_axis, returns, label='Rendimiento', zorder=1)
+    axes.plot(x_axis, VaR, label='VaR', zorder=2)
     violations_x = x_axis[returns < VaR]
     violations_y = VaR[returns < VaR]
-    axes[1].scatter(violations_x, violations_y, s=20, c='k', marker='^', label='Exceso', zorder=3)
+    axes.scatter(violations_x, violations_y, s=20, c='k', marker='^', label='Exceso', zorder=3)
     hit = sum(returns < VaR) / len(returns)
-    axes[1].set_title(f'Tasa de exceso: {hit:.4f}')
-    # axes[1].set_xlabel(x_lbl)
-    axes[1].set_ylabel(f'Rendimiento (%)')
-    axes[1].legend()
-    axes[1].tick_params(axis='x', labelrotation=45)
+    axes.set_title(f'Tasa de exceso: {hit:.4f}')
+    # axes.set_xlabel(x_lbl)
+    axes.set_ylabel(f'Rendimiento (%)')
+    axes.legend()
+    axes.tick_params(axis='x', labelrotation=45)
     
     return fig
+
     
     
 def plot_news_impact_curve(beta, model, quantile, VaR, G):
